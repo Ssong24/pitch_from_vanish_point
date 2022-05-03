@@ -115,7 +115,7 @@ void demo_VPDetection(string inputImagePath) {
     LineDetect( image, thLength, lines );
 
     // Camera internal parameters
-    cv::Point2d pp( image.cols / 2, image.rows / 2 );        // Principle point (in pixel)
+    cv::Point2d pp( image.cols / 2, image.rows / 2 );  // Principle point (in pixel)
     double f = 1.2 * max(image.cols, image.rows);  //6.053 / 0.009; // Focal length (in pixel)
 
     // Vanishing point detection
