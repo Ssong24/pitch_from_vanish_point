@@ -65,8 +65,8 @@ void LineDetect( cv::Mat image, double thLength, std::vector<std::vector<double>
 
 void drawClusters( cv::Mat &img, std::vector<std::vector<double> > &lines, std::vector<std::vector<int> > &clusters )
 {
-    int cols = img.cols;
-    int rows = img.rows;
+//    int cols = img.cols;
+//    int rows = img.rows;
 
     //draw lines
     std::vector<cv::Scalar> lineColors( 3 );
@@ -92,7 +92,7 @@ void drawClusters( cv::Mat &img, std::vector<std::vector<double> > &lines, std::
 
             cv::Point pt_s = cv::Point( lines[idx][0], lines[idx][1] );
             cv::Point pt_e = cv::Point( lines[idx][2], lines[idx][3] );
-            cv::Point pt_m = ( pt_s + pt_e ) * 0.5;
+//            cv::Point pt_m = ( pt_s + pt_e ) * 0.5;
 
             cv::line( img, pt_s, pt_e, lineColors[i], 2, LINE_AA );
         }
@@ -103,29 +103,44 @@ void drawClusters( cv::Mat &img, std::vector<std::vector<double> > &lines, std::
 void demo_VPDetection(string inputImagePath) {
 //    string inPutImage = "D:\\DevelopCenter\\VanishingPoints\\datasets\\YorkUrbanDB\\P1020171\\P1020171.jpg";
 
-        cv::Mat image= cv::imread( inputImagePath );
-        if ( image.empty() )
-        {
-            printf( "Load image error : %s\n", inputImagePath.c_str() );
-        }
+    cv::Mat image= cv::imread( inputImagePath );
+    if ( image.empty() )
+    {
+        printf( "Load image error : %s\n", inputImagePath.c_str() );
+    }
 
-        // LSD line segment detection
-        double thLength = 30.0;
-        std::vector<std::vector<double> > lines;
-        LineDetect( image, thLength, lines );
+    // LSD line segment detection
+    double thLength = 100.0;  // 30.0
+    std::vector<std::vector<double> > lines;
+    LineDetect( image, thLength, lines );
 
-        // Camera internal parameters
-        cv::Point2d pp( image.cols / 2, image.rows / 2 );        // Principle point (in pixel)
-        double f = 1.2 * max(image.cols, image.rows);//6.053 / 0.009;          // Focal length (in pixel)
+    // Camera internal parameters
+    cv::Point2d pp( image.cols / 2, image.rows / 2 );        // Principle point (in pixel)
+    double f = 1.2 * max(image.cols, image.rows);  //6.053 / 0.009; // Focal length (in pixel)
 
-        // Vanishing point detection
-        std::vector<cv::Point3d> vps;              // Detected vanishing points (in pixel)
-        std::vector<std::vector<int> > clusters;   // Line segment clustering results of each vanishing point
-        VPDetection detector;
-        detector.run( lines, pp, f, vps, clusters );
+    // Vanishing point detection
+    std::vector<cv::Point3d> vps;              // Detected vanishing points (in pixel)
+    std::vector<std::vector<int> > clusters;   // Line segment clustering results of each vanishing point
+    std::vector<cv::Point2d> vp2D;
+    
 
-        drawClusters( image, lines, clusters );
-        imshow("",image);
-        cv::waitKey( 0 );
+    VPDetection detector;
+    detector.run( lines, pp, f, vps, clusters );
+    detector.vp3Dto2D(vps, vp2D);
+    printf("vp2D in main\n");
+    for(int i = 0; i < 3; i++) {
+        printf("(x,y) = (%lf, %lf)\n", vp2D[i].x, vp2D[i].y);
+    }
+    
+    printf("\npy = %d\n", image.rows / 2);
+    printf("f = %lf\n", f);
+    double pitch_angle = atan2(image.rows /2 - vp2D[0].y , f);
+    cout << "pitch: " << pitch_angle << " = " << pitch_angle * 180. / M_PI << endl;
+    
+    circle(image, cv::Point(vp2D[0].x, vp2D[0].y), 20, cv::Scalar(0, 0, 255), -1);
+
+    drawClusters( image, lines, clusters );
+    imshow("",image);
+    cv::waitKey(3000);
 }
 

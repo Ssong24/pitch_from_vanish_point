@@ -35,6 +35,8 @@ public:
     void getBestVpsHyp( std::vector<std::vector<double> > &sphereGrid, std::vector<std::vector<cv::Point3d> >  &vpHypo, std::vector<cv::Point3d> &vps  );
 
     void lines2Vps( double thAngle, std::vector<cv::Point3d> &vps, std::vector<std::vector<int> > &clusters );
+    
+    void vp3Dto2D(std::vector<cv::Point3d> vps, std::vector<cv::Point2d>& vp2D);
 
 private:
     std::vector<std::vector<double> > lines;
