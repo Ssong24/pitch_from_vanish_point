@@ -17,5 +17,7 @@
 
 void LineDetect( cv::Mat image, double thLength, std::vector<std::vector<double> > &lines );
 void drawClusters( cv::Mat &img, std::vector<std::vector<double> > &lines, std::vector<std::vector<int> > &clusters );
-void demo_VPDetection(std::string inputImagePath);
+void demo_VPDetection( void );
+void demo_lines_and_vps(cv::Mat image);
+
 #endif /* line_detect_hpp */

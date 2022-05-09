@@ -10,6 +10,8 @@
 #include "wls/example_RoG.hpp"
 #include "vanishPt/vanishing_point.hpp"
 #include "vanishPt/line_detect.hpp"
+#include "findPitch/pitch_btw_imgs.hpp"
+
 using namespace cv;
 using namespace std;
 
@@ -19,13 +21,10 @@ using namespace std;
 int main(/*int argc, char **argv*/)
 {
 
+    demo_VPDetection();
 //    demo_vanishing_point();
-    demo_VPDetection("/Users/3i-21-331/workspace/stitching/mobile_stitching/dataset/PivoX_full/galaxy_zflip3/WideLens_20deg/roll_negative/c_4.jpg");
-    
-    // 11 -> c_4 pitch 0.51594  / 1.6
-    // 13 -> c_4 pitch ...3.9 / 1.5
-    // 15 -> c_4 pitch  ..2.85 / 8
-    // 17 -> c_4 pitch   8.39 / 2.1
+//    demo_lines_and_vps();
+//    demo_find_pitch_btw_up_and_center();
     
     
     return 0;

@@ -29,21 +29,19 @@ void VPDetection::run( std::vector<std::vector<double> > &lines, cv::Point2d pp,
     this->f = f;
     this->noiseRatio = 0.5;
 
-    cout<<"get vp hypotheses . . ."<<endl;
+//    cout<<"get vp hypotheses . . ."<<endl;
     std::vector<std::vector<cv::Point3d> > vpHypo;
     getVPHypVia2Lines( vpHypo );
 
-    cout<<"get sphere grid . . ."<<endl;
+//    cout<<"get sphere grid . . ."<<endl;
     std::vector<std::vector<double> > sphereGrid;
     getSphereGrids( sphereGrid );
 
-    cout<<"test vp hypotheses . . ."<<endl;
+//    cout<<"test vp hypotheses . . ."<<endl;
     getBestVpsHyp( sphereGrid, vpHypo, vps );
-//    for(int i =0; i < vps.size(); i++)
-//        cout << vps[i] << endl;
 
-    cout<< "get final line clusters . . ."<<endl;
-    double thAngle = 6.0 / 180.0 * CV_PI;
+//    cout<< "get final line clusters . . ."<<endl;
+    double thAngle = 15.0 / 180.0 * CV_PI; // 6.0 / 180.0 * CV_PI;
     lines2Vps( thAngle, vps, clusters );
     
     int clusteredNum = 0;
@@ -53,7 +51,7 @@ void VPDetection::run( std::vector<std::vector<double> > &lines, cv::Point2d pp,
     }
 
     cout<<"total: " << lines.size() << "  clustered: " << clusteredNum;
-    cout<<"    X: " << clusters[0].size() << "   Y: " << clusters[1].size() << "   Z: " << clusters[2].size() << endl;
+    cout<<"    X: " << clusters[0].size() << "    Y: " << clusters[1].size() << "   Z: " << clusters[2].size() << endl;
 }
 
 void VPDetection::getVPHypVia2Lines( std::vector<std::vector<cv::Point3d> > &vpHypo )
@@ -82,18 +80,16 @@ void VPDetection::getVPHypVia2Lines( std::vector<std::vector<cv::Point3d> > &vpH
         lineInfos[i].length = sqrt( dx * dx + dy * dy );
 
         lineInfos[i].orientation = atan2( dy, dx );
-        if ( lineInfos[i].orientation < 0 )
-        {
+        if ( lineInfos[i].orientation < 0 ) {
             lineInfos[i].orientation += CV_PI;
         }
     }
 
     // get vp hypothesis for each iteration
-//    vpHypo.resize(it*numVp2, std::vector<cv::Point3d>(it*numVps, 3));
     vpHypo.resize(it*numVp2);
     for(int i =0; i < it*numVp2; i++)
         vpHypo[i].resize(3);
-//    vpHypo = std::vector<std::vector<cv::Point3d> > ( it * numVp2, 3 );
+
     int count = 0;
     srand((unsigned)time(NULL));
     for ( int i = 0; i < it; ++ i )
@@ -166,19 +162,14 @@ void VPDetection::getSphereGrids( std::vector<std::vector<double> > &sphereGrid 
     int gridLA = angleSpanLA / angelAccuracy;
     int gridLO = angleSpanLO / angelAccuracy;
 
-//    sphereGrid = std::vector<std::vector<double> >( gridLA, gridLO );
     sphereGrid.resize(gridLA);
     for(int i = 0; i < gridLA; i++)
         sphereGrid[i].resize(gridLO);
     
     
     for ( int i=0; i<gridLA; ++i )
-    {
         for ( int j=0; j<gridLO; ++j )
-        {
             sphereGrid[i][j] = 0.0;
-        }
-    }
 
     // put intersection points into the grid
     double angelTolerance = 60.0 / 180.0 * CV_PI;
@@ -188,6 +179,7 @@ void VPDetection::getSphereGrids( std::vector<std::vector<double> > &sphereGrid 
     double latitude = 0.0, longitude = 0.0;
     int LA = 0, LO = 0;
     double angleDev = 0.0;
+    
     for ( int i=0; i<lines.size()-1; ++i )
     {
         for ( int j=i+1; j<lines.size(); ++j )
@@ -234,13 +226,13 @@ void VPDetection::getSphereGrids( std::vector<std::vector<double> > &sphereGrid 
         }
     }
 
-    //
+
     int halfSize = 1;
     int winSize = halfSize * 2 + 1;
     int neighNum = winSize * winSize;
 
     // get the weighted line length of each grid
-    std::vector<std::vector<double> > sphereGridNew;//( gridLA, gridLO );
+    std::vector<std::vector<double> > sphereGridNew;  //( gridLA, gridLO );
     sphereGridNew.resize(gridLA);
     for(int i =0; i < gridLA; i++)
         sphereGridNew[i].resize(gridLO);
@@ -326,7 +318,6 @@ void VPDetection::vp3Dto2D(std::vector<cv::Point3d> vps, std::vector<cv::Point2d
     {
         vp2D[i].x =  vps[i].x * f / vps[i].z + pp.x;
         vp2D[i].y =  vps[i].y * f / vps[i].z + pp.y;
-//        printf("(x,y) = (%lf, %lf)\n", vp2D[i].x, vp2D[i].y);
     }
 }
 
@@ -341,7 +332,6 @@ void VPDetection::lines2Vps( double thAngle, std::vector<cv::Point3d> &vps, std:
     {
         vp2D[i].x =  vps[i].x * f / vps[i].z + pp.x;
         vp2D[i].y =  vps[i].y * f / vps[i].z + pp.y;
-        printf("(x,y) = (%lf, %lf)\n", vp2D[i].x, vp2D[i].y);
     }
 
     for ( int i = 0; i < lines.size(); ++ i )
@@ -369,18 +359,15 @@ void VPDetection::lines2Vps( double thAngle, std::vector<cv::Point3d> &vps, std:
 
             double crossValue = v1x * v2x + v1y * v2y;
             if ( crossValue > 1.0 )
-            {
                 crossValue = 1.0;
-            }
+            
             if ( crossValue < -1.0 )
-            {
                 crossValue = -1.0;
-            }
+            
             double angle = acos( crossValue );
             angle = min( CV_PI - angle, angle );
 
-            if ( angle < minAngle )
-            {
+            if ( angle < minAngle ) {
                 minAngle = angle;
                 bestIdx = j;
             }

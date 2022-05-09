@@ -11,6 +11,8 @@
 		551D319D2812466F00AD9568 /* example_RoG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 551D319B2812466F00AD9568 /* example_RoG.cpp */; };
 		551D31A12816246A00AD9568 /* wls_filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 551D319F2816246A00AD9568 /* wls_filter.cpp */; };
 		554357B02787CD090018709A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 554357AF2787CD090018709A /* main.cpp */; };
+		55B94F9E2824F23500021244 /* pitch_btw_imgs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55B94F9C2824F23500021244 /* pitch_btw_imgs.cpp */; };
+		55B94FA12824F2BD00021244 /* dataset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55B94F9F2824F2BD00021244 /* dataset.cpp */; };
 		55C7CA03281A182E00A87DBB /* vanishing_point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C7CA01281A182E00A87DBB /* vanishing_point.cpp */; };
 		55C7CA08281A26FA00A87DBB /* VPDetection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C7CA06281A26FA00A87DBB /* VPDetection.cpp */; };
 		55C7CA0B281A270A00A87DBB /* lsd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C7CA09281A270A00A87DBB /* lsd.cpp */; };
@@ -38,6 +40,10 @@
 		551D31A02816246A00AD9568 /* wls_filter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = wls_filter.hpp; sourceTree = "<group>"; };
 		554357AC2787CD090018709A /* CppPractive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CppPractive; sourceTree = BUILT_PRODUCTS_DIR; };
 		554357AF2787CD090018709A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		55B94F9C2824F23500021244 /* pitch_btw_imgs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pitch_btw_imgs.cpp; sourceTree = "<group>"; };
+		55B94F9D2824F23500021244 /* pitch_btw_imgs.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pitch_btw_imgs.hpp; sourceTree = "<group>"; };
+		55B94F9F2824F2BD00021244 /* dataset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dataset.cpp; sourceTree = "<group>"; };
+		55B94FA02824F2BD00021244 /* dataset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dataset.hpp; sourceTree = "<group>"; };
 		55C7CA01281A182E00A87DBB /* vanishing_point.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vanishing_point.cpp; sourceTree = "<group>"; };
 		55C7CA02281A182E00A87DBB /* vanishing_point.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vanishing_point.hpp; sourceTree = "<group>"; };
 		55C7CA06281A26FA00A87DBB /* VPDetection.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VPDetection.cpp; sourceTree = "<group>"; };
@@ -97,6 +103,7 @@
 		554357AE2787CD090018709A /* CppPractive */ = {
 			isa = PBXGroup;
 			children = (
+				55B94F9B2824F22100021244 /* findPitch */,
 				55C7CA04281A19C100A87DBB /* opticalFlow */,
 				55C7C9FD281A13B300A87DBB /* vanishPt */,
 				551D31A228162AFA00AD9568 /* img */,
@@ -104,6 +111,17 @@
 				554357AF2787CD090018709A /* main.cpp */,
 			);
 			path = CppPractive;
+			sourceTree = "<group>";
+		};
+		55B94F9B2824F22100021244 /* findPitch */ = {
+			isa = PBXGroup;
+			children = (
+				55B94F9C2824F23500021244 /* pitch_btw_imgs.cpp */,
+				55B94F9D2824F23500021244 /* pitch_btw_imgs.hpp */,
+				55B94F9F2824F2BD00021244 /* dataset.cpp */,
+				55B94FA02824F2BD00021244 /* dataset.hpp */,
+			);
+			path = findPitch;
 			sourceTree = "<group>";
 		};
 		55C7C9FD281A13B300A87DBB /* vanishPt */ = {
@@ -196,11 +214,13 @@
 			files = (
 				55C7CA0E281A272700A87DBB /* line_detect.cpp in Sources */,
 				554357B02787CD090018709A /* main.cpp in Sources */,
+				55B94FA12824F2BD00021244 /* dataset.cpp in Sources */,
 				55C7CA03281A182E00A87DBB /* vanishing_point.cpp in Sources */,
 				551D319A281245C900AD9568 /* example_optical_flow.cpp in Sources */,
 				551D31A12816246A00AD9568 /* wls_filter.cpp in Sources */,
 				551D319D2812466F00AD9568 /* example_RoG.cpp in Sources */,
 				55C7CA08281A26FA00A87DBB /* VPDetection.cpp in Sources */,
+				55B94F9E2824F23500021244 /* pitch_btw_imgs.cpp in Sources */,
 				55C7CA0B281A270A00A87DBB /* lsd.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
