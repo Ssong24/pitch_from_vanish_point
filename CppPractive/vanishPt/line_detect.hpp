@@ -10,6 +10,7 @@
 
 #include "lsd.hpp"
 #include "VPDetection.hpp"
+#include "../exiftag/demo_exif.hpp"
 
 #include <stdio.h>
 #include <vector>

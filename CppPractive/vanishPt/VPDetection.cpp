@@ -41,7 +41,7 @@ void VPDetection::run( std::vector<std::vector<double> > &lines, cv::Point2d pp,
     getBestVpsHyp( sphereGrid, vpHypo, vps );
 
 //    cout<< "get final line clusters . . ."<<endl;
-    double thAngle = 15.0 / 180.0 * CV_PI; // 6.0 / 180.0 * CV_PI;
+    double thAngle = 6.0 / 180.0 * CV_PI; // 6.0 / 180.0 * CV_PI;
     lines2Vps( thAngle, vps, clusters );
     
     int clusteredNum = 0;
@@ -50,8 +50,8 @@ void VPDetection::run( std::vector<std::vector<double> > &lines, cv::Point2d pp,
         clusteredNum += clusters[i].size();
     }
 
-    cout<<"total: " << lines.size() << "  clustered: " << clusteredNum;
-    cout<<"    X: " << clusters[0].size() << "    Y: " << clusters[1].size() << "   Z: " << clusters[2].size() << endl;
+//    cout<<"total: " << lines.size() << "  clustered: " << clusteredNum;
+//    cout<<"    X: " << clusters[0].size() << "    Y: " << clusters[1].size() << "   Z: " << clusters[2].size() << endl;
 }
 
 void VPDetection::getVPHypVia2Lines( std::vector<std::vector<cv::Point3d> > &vpHypo )

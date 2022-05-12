@@ -12,6 +12,23 @@
 using namespace std;
 using namespace cv;
 
+void getLine(double x1, double y1, double x2, double y2, double &a, double &b, double &c)
+{
+       // (x- p1X) / (p2X - p1X) = (y - p1Y) / (p2Y - p1Y)
+       a = y1 - y2; // Note: this was incorrectly "y2 - y1" in the original answer
+       b = x2 - x1;
+       c = x1 * y2 - x2 * y1;
+}
+
+double dist(double pct1X, double pct1Y, double pct2X, double pct2Y, double pct3X, double pct3Y)
+{
+     double a, b, c;
+     getLine(pct2X, pct2Y, pct3X, pct3Y, a, b, c);
+     return abs(a * pct1X + b * pct1Y + c) / sqrt(a * a + b * b);
+}
+
+
+
 
 // LSD line segment detection
 void LineDetect( cv::Mat image, double thLength, std::vector<std::vector<double> > &lines )
@@ -101,69 +118,148 @@ void drawClusters( cv::Mat &img, std::vector<std::vector<double> > &lines, std::
 
 
 void demo_VPDetection( void ) {
-    
-    
     Mat image, resized, output;
-    string srcDir = "/Users/3i-21-331/workspace/stitching/mobile_stitching/dataset/PivoX_full/galaxy_zflip3/WideLens_20deg/correct_capture_1" ;
+    
+    string dataset_name = "correct_capture_1";  // roll_negative, pitch_positive, correct_capture_1
+    string srcDir = "/Users/3i-21-331/workspace/stitching/mobile_stitching/dataset/PivoX_full/galaxy_zflip3/WideLens_20deg/" + dataset_name ;
     string dstDir = "/Users/3i-21-331/workspace/CppPractive/CppPractive/img";
+    printf("dataset: %s\n", dataset_name.c_str());
+    string ucd_mode = "/u_";
     
-    printf("source dir: %s\n", srcDir.c_str());
+    string image_path = srcDir + ucd_mode + "1.jpg";
+    double f_pix, fl_in_35mm;
+    image = imread(image_path);
     
-    for (int i = 8; i < 9 /*10*/; i++) {
+    find_fl_in_35mm(image_path, fl_in_35mm);
+    fl_mm_to_pix(f_pix, fl_in_35mm, image.cols);
+    
+    double fy_mm, fy_pix;
+    find_fl_in_35mm(image_path, fy_mm);
+    fl_mm_to_pix(fy_pix, fy_mm, image.cols, 24.0);
+    printf("fy = %.3lf[pix]\n", fy_pix);
+    
+    
+    printf("focal length = %.3lf [mm] = %.2lf [pix] \n", fl_in_35mm, f_pix);
+    
+    int start = 1;
+    int end = 10;
+    
+    double pitch_sum = 0;
+    double cnt = 0;
+    double pitch_abs_max = -1;
+
+    
+    
+    for (int i = start; i < end; i++) {
 //        v1 = rand() % 9 + 1;
-        printf("\ni: %d\n", i);
+        long start_t = getTickCount();
+        printf("\n[%d] ", i);
+        image_path = srcDir + ucd_mode +  to_string(i) + ".jpg";
+        image = imread(image_path);
         
-        image = imread(srcDir + "/c_" + to_string(i) +".jpg");
         Mat resized;
         resize(image, resized, Size(image.cols/2, image.rows/2));
-    
-        // estimated / real
-        // 11 -> c_4 pitch -0.51594  / 1.6
-        // 13 -> c_4 pitch   3.9 / 1.5
-        // 15 -> c_4 pitch  ..2.85 / 8
-        // 17 -> c_4 pitch   8.39 / 2.1
+        assert ( !image.empty() );
+        // estimated / real pitch
+        // 11 ->  -2.55  / 1.6
+        // 13 ->   3.9 / 1.5
+        // 15 -> ..2.85 / 8
+        // 17 ->  8.39 / 2.1
 
-        if ( image.empty() )
-        {
-            printf( "Load image error \n" );
-            return ;
-        }
 
         // LSD line segment detection
-        double thLength = 150.0;
+        double thLength = 40.0;
         std::vector<std::vector<double> > lines;
         LineDetect( image, thLength, lines );
 //        printf("lines size: %d\n", lines.size());
         
         // Camera internal parameters
         cv::Point2d pp( image.cols / 2, image.rows / 2 );  // Principle point (in pixel)
-        double f = 0.75 * max(image.cols, image.rows);  //6.053 / 0.009; // Focal length (in pixel)
-
+//        double f =  0.75 * max(image.cols, image.rows);  //6.053 / 0.009; // Focal length (in pixel)
+        
+        
         // Vanishing point(vp) detection
         std::vector< cv::Point3d > vps;            // Detected vps(in pixel)
         std::vector< std::vector<int> > clusters;  // Line segment clustering results of each vp
         std::vector< cv::Point2d > vp2D;
 
         VPDetection detector;
-        detector.run( lines, pp, f, vps, clusters );
+        detector.run( lines, pp, f_pix, vps, clusters );
         detector.vp3Dto2D(vps, vp2D);
         
-        printf("vp2D in main\n");
-        for(int i = 0; i < 3; i++) {
-            printf("(x,y) = (%lf, %lf)\n", vp2D[i].x, vp2D[i].y);
+//        printf("vp2D in main\n");
+//        for(int i = 0; i < 3; i++) {
+//            printf("(x,y) = (%lf, %lf)\n", vp2D[i].x, vp2D[i].y);
+//        }
+        
+        int idx = 0;
+//        printf("atan(y,x) = atan(%.2f, %.2f)\n", image.rows/2.0 - vp2D[idx].y, f);
+        vector<double> pitches(3);
+        double rad2deg = 180. / M_PI;
+
+        double pitch_0 = atan2(image.rows/2.0 - vp2D[0].y, f_pix) * rad2deg;
+        double pitch_1 = atan2(image.rows/2.0 - vp2D[1].y, f_pix) * rad2deg;
+        double pitch_2 = atan2(image.rows/2.0 - vp2D[2].y, f_pix) * rad2deg;
+        pitches[0] = pitch_0;
+        pitches[1] = pitch_1;
+        pitches[2] = pitch_2;
+        
+        
+//        printf("%3.2f, %3.2f %3.2f [deg]\n", pitch_0 , pitch_1 , pitch_2 );
+//        printf("pitch: %.2f[rad] = %.2f[deg] \n", pitch_angle, pitch_angle * 180. / M_PI );
+        
+        vector<int> idx_of_ground;
+        idx_of_ground.reserve(2);
+        
+        double max_abs = -11111111;
+        int max_idx = 0;
+        for (int i = 0; i < 3; i++) {
+            
+            if (max_abs < abs(pitches[i])) {
+                max_abs = abs(pitches[i]);
+                max_idx = i;
+            }
         }
         
-        printf("atan(y,x) = atan(%.2f, %.2f)\n", image.rows/2.0 - vp2D[0].y, f);
-        double pitch_angle = atan2(image.rows/2.0 - vp2D[0].y, f);
+        for (int i = 0; i < 3; i++) {
+            if (i != max_idx) {
+                idx_of_ground.push_back(i);
+//                printf("pushed pitch: %3.3f\n", pitches[i]);
+            }
+        }
         
-        printf("pitch: %.2f[rad] = %.2f[deg] \n", pitch_angle, pitch_angle * 180. / M_PI );
-         
-        circle(image, cv::Point(vp2D[0].x, vp2D[0].y), 20, cv::Scalar(0, 0, 255), -1);
-        drawClusters( image, lines, clusters );
+        double x1, y1, x2, y2;
+//        double a, b, c;
+        x1 = vp2D[idx_of_ground[0]].x;  y1 = vp2D[idx_of_ground[0]].y;
+        x2 = vp2D[idx_of_ground[1]].x;  y2 = vp2D[idx_of_ground[1]].y;
         
-        imwrite( dstDir + "/result" + to_string(i) + ".jpg", image);
+       
+        double distance_line_to_pp = dist(pp.x, pp.y, x1, y1, x2, y2);
+        double pitch_abs = abs(atan(distance_line_to_pp / f_pix)) * rad2deg;
+       
+        
+        if (pitch_abs < 40) {
+            cnt++;
+            pitch_abs_max = max(pitch_abs_max, pitch_abs);
+            pitch_sum += pitch_abs;
+            
+            printf("(x1, y1), (x2, y2), (px, py) = (%.2lf, %.2lf), (%.2lf, %.2lf), (%.0lf, %.0lf)\n", x1, y2, x2, y2, pp.x, pp.y);
+            printf("distance btw line and pp : %3.3lf\n", distance_line_to_pp);
+            printf("pitch_abs: %.3lf\n", pitch_abs);
+        }
+       
+        
+        
+        
+//        circle(image, cv::Point(vp2D[idx].x, vp2D[idx].y), 20, cv::Scalar(0, 0, 255), -1);
+//        drawClusters( image, lines, clusters );
+        long end_t = getTickCount();
+        cout << "time: " << (end_t - start_t) / getTickFrequency() << "sec\n" << endl;
+        
+//        imwrite( dstDir + "/result" + to_string(i) + ".jpg", image);
         
     }
+    printf("pitch average: %.2lf\n", (pitch_sum-pitch_abs_max) / (cnt-1)) ;
 
 }
 

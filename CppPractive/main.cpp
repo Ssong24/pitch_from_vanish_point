@@ -11,16 +11,16 @@
 #include "vanishPt/vanishing_point.hpp"
 #include "vanishPt/line_detect.hpp"
 #include "findPitch/pitch_btw_imgs.hpp"
+#include "exiftag/demo_exif.hpp"
 
 using namespace cv;
 using namespace std;
 
 
-
-
 int main(/*int argc, char **argv*/)
 {
-
+   
+//    demo_exiftag();
     demo_VPDetection();
 //    demo_vanishing_point();
 //    demo_lines_and_vps();
