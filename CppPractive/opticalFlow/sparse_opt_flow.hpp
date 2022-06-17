@@ -1,12 +1,13 @@
 //
-//  example_optical_flow.hpp
+//  sparse_opt_flow.hpp
 //  CppPractive
 //
-//  Created by Song on 2022/04/22.
+//  Created by Song on 2022/05/16.
 //
 
-#ifndef example_optical_flow_hpp
-#define example_optical_flow_hpp
+#ifndef sparse_opt_flow_hpp
+#define sparse_opt_flow_hpp
+
 
 #include <stdio.h>
 #include <iostream>
@@ -16,4 +17,4 @@ using namespace std;
 using namespace cv;
 
 int display_optical_flow_from_video() ;
-#endif /* example_optical_flow_hpp */
+#endif /* sparse_opt_flow_hpp */
