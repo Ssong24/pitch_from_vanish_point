@@ -10,6 +10,9 @@
 		551D319D2812466F00AD9568 /* example_RoG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 551D319B2812466F00AD9568 /* example_RoG.cpp */; };
 		551D31A12816246A00AD9568 /* wls_filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 551D319F2816246A00AD9568 /* wls_filter.cpp */; };
 		554357B02787CD090018709A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 554357AF2787CD090018709A /* main.cpp */; };
+		55AB21DB2862E4B60085A975 /* LensParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55AB21D82862E4B60085A975 /* LensParameter.cpp */; };
+		55AB21DC2862E4B60085A975 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55AB21D92862E4B60085A975 /* Image.cpp */; };
+		55AB21DF2862E84A0085A975 /* json.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55AB21DD2862E84A0085A975 /* json.cpp */; };
 		55B94F9E2824F23500021244 /* pitch_btw_imgs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55B94F9C2824F23500021244 /* pitch_btw_imgs.cpp */; };
 		55B94FA12824F2BD00021244 /* dataset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55B94F9F2824F2BD00021244 /* dataset.cpp */; };
 		55BA5A46282BA09B003304A9 /* exif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55BA5A44282BA09B003304A9 /* exif.cpp */; };
@@ -41,6 +44,12 @@
 		551D31A02816246A00AD9568 /* wls_filter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = wls_filter.hpp; sourceTree = "<group>"; };
 		554357AC2787CD090018709A /* CppPractive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CppPractive; sourceTree = BUILT_PRODUCTS_DIR; };
 		554357AF2787CD090018709A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		55AB21D72862E4B60085A975 /* LensParameter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LensParameter.hpp; path = ../../../stitching/mobile_stitching/m_stitcher/m_stitcher/LensParameter.hpp; sourceTree = "<group>"; };
+		55AB21D82862E4B60085A975 /* LensParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LensParameter.cpp; path = ../../../stitching/mobile_stitching/m_stitcher/m_stitcher/LensParameter.cpp; sourceTree = "<group>"; };
+		55AB21D92862E4B60085A975 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Image.cpp; path = ../../../stitching/mobile_stitching/m_stitcher/m_stitcher/Image.cpp; sourceTree = "<group>"; };
+		55AB21DA2862E4B60085A975 /* Image.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Image.hpp; path = ../../../stitching/mobile_stitching/m_stitcher/m_stitcher/Image.hpp; sourceTree = "<group>"; };
+		55AB21DD2862E84A0085A975 /* json.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json.cpp; path = ../../../stitching/mobile_stitching/m_stitcher/m_stitcher/json.cpp; sourceTree = "<group>"; };
+		55AB21DE2862E84A0085A975 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = ../../../stitching/mobile_stitching/m_stitcher/m_stitcher/json.hpp; sourceTree = "<group>"; };
 		55B94F9C2824F23500021244 /* pitch_btw_imgs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pitch_btw_imgs.cpp; sourceTree = "<group>"; };
 		55B94F9D2824F23500021244 /* pitch_btw_imgs.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pitch_btw_imgs.hpp; sourceTree = "<group>"; };
 		55B94F9F2824F2BD00021244 /* dataset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dataset.cpp; sourceTree = "<group>"; };
@@ -163,6 +172,12 @@
 		55C7CA04281A19C100A87DBB /* opticalFlow */ = {
 			isa = PBXGroup;
 			children = (
+				55AB21DD2862E84A0085A975 /* json.cpp */,
+				55AB21DE2862E84A0085A975 /* json.hpp */,
+				55AB21D92862E4B60085A975 /* Image.cpp */,
+				55AB21DA2862E4B60085A975 /* Image.hpp */,
+				55AB21D82862E4B60085A975 /* LensParameter.cpp */,
+				55AB21D72862E4B60085A975 /* LensParameter.hpp */,
 				55D8AA8B2830B2410016DB81 /* dense_opt_flow.cpp */,
 				55D8AA8C2830B2410016DB81 /* dense_opt_flow.hpp */,
 				55D8AA8E2831C2760016DB81 /* sparse_opt_flow.cpp */,
@@ -238,11 +253,14 @@
 				55D8AA8D2830B2410016DB81 /* dense_opt_flow.cpp in Sources */,
 				55C7CA0E281A272700A87DBB /* line_detect.cpp in Sources */,
 				554357B02787CD090018709A /* main.cpp in Sources */,
+				55AB21DF2862E84A0085A975 /* json.cpp in Sources */,
 				55D8AA902831C2760016DB81 /* sparse_opt_flow.cpp in Sources */,
 				55B94FA12824F2BD00021244 /* dataset.cpp in Sources */,
+				55AB21DB2862E4B60085A975 /* LensParameter.cpp in Sources */,
 				55C7CA03281A182E00A87DBB /* vanishing_point.cpp in Sources */,
 				551D31A12816246A00AD9568 /* wls_filter.cpp in Sources */,
 				55BA5A49282BA0F1003304A9 /* demo_exif.cpp in Sources */,
+				55AB21DC2862E4B60085A975 /* Image.cpp in Sources */,
 				551D319D2812466F00AD9568 /* example_RoG.cpp in Sources */,
 				55BA5A46282BA09B003304A9 /* exif.cpp in Sources */,
 				55C7CA08281A26FA00A87DBB /* VPDetection.cpp in Sources */,
@@ -403,6 +421,7 @@
 					"-lopencv_videoio",
 					"-lopencv_video",
 					"-lopencv_optflow",
+					"-lopencv_xphoto",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -433,6 +452,7 @@
 					"-lopencv_videoio",
 					"-lopencv_video",
 					"-lopencv_optflow",
+					"-lopencv_xphoto",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
