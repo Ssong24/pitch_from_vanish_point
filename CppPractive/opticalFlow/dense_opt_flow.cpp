@@ -109,7 +109,7 @@ void dense_optical_flow_images(std::string leftImgFile, std::string rightImgFile
     method(prvsL, prvsR, flowL2R, std::forward<Args>(args)...);
     // flow 2 next -> prvs
     method(prvsR, prvsL, flowR2L, std::forward<Args>(args)...);
-    cout << "flowL2R type: " << (int)flowL2R.type() << endl;
+    std::cout << "flowL2R type: " << (int)flowL2R.type() << std::endl;
     
     
     // calculate updated pixel location

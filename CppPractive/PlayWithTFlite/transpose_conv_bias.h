@@ -15,15 +15,15 @@
 #ifndef MEDIAPIPE_UTIL_TFLITE_OPERATIONS_TRANSPOSE_CONV_BIAS_H_
 #define MEDIAPIPE_UTIL_TFLITE_OPERATIONS_TRANSPOSE_CONV_BIAS_H_
 
-#include "tensorflow/lite/kernels/internal/types.h"
-#include "tensorflow/lite/kernels/kernel_util.h"
-
-namespace mediapipe {
-namespace tflite_operations {
-
-TfLiteRegistration* RegisterConvolution2DTransposeBias();
-
-}  // namespace tflite_operations
-}  // namespace mediapipe
+//#include "tensorflow/lite/kernels/internal/types.h"
+//#include "tensorflow/lite/kernels/kernel_util.h"
+//
+//namespace mediapipe {
+//namespace tflite_operations {
+//
+//TfLiteRegistration* RegisterConvolution2DTransposeBias();
+//
+//}  // namespace tflite_operations
+//}  // namespace mediapipe
 
 #endif  // MEDIAPIPE_UTIL_TFLITE_OPERATIONS_TRANSPOSE_CONV_BIAS_H_

@@ -25,7 +25,7 @@ int main(/*int argc, char **argv*/)
     string farne = "farneback";
     string rlof = "rlof";
     
-    demo_dense_opt_flow(farne);
+//    demo_dense_opt_flow(farne);
     
     return 0;
 }
